@@ -14,18 +14,27 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'blueyed/vim-diminactive'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'hdima/python-syntax'
-Plug 'davidhalter/jedi-vim'
-Plug 'hynek/vim-python-pep8-indent'
+Plug 'blueyed/vim-diminactive'
+
+"Syntax
+Plug 'sheerun/vim-polyglot'
+
+" Linter
+Plug 'dense-analysis/ale'
+
+" Git
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+" JS
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
-"Plug 'nvie/vim-flake8'
-Plug 'tpope/vim-fugitive'
-Plug 'dense-analysis/ale'
-"Plug 'psf/black', { 'branch': 'stable' }
+
+" Python
+Plug 'davidhalter/jedi-vim'
+"Plug 'vim-python/python-syntax'
+Plug 'hynek/vim-python-pep8-indent'
 call plug#end()
 
 let g:jellybeans_overrides = {
@@ -56,6 +65,8 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8
 set laststatus=2
+set wildmenu
+set showcmd
 "set nowrapscan
 
 
@@ -67,7 +78,7 @@ au BufNewFile,BufRead *.html      set tabstop=2 softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.jsx       set tabstop=2 softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead Jenkinsfile set tabstop=4 softtabstop=4 shiftwidth=4 | setf groovy
 au BufNewFile,BufRead *.yam       set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-"autocmd FileType yaml             set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+au BufNewFile,BufRead *.yaml      set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 
 " (Default) Cursor
@@ -102,7 +113,9 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-let python_highlight_all = 1
+
+" (Plugin) python-syntax
+"let g:python_highlight_all = 1
 
 " (Plugin) scrooloose/nerdtree
 let NERDTreeShowHidden = 1
@@ -128,10 +141,12 @@ let g:vim_jsx_pretty_colorful_config = 1 " default 0
 nnoremap <C-L> :ALEToggle<cr>
 let g:ale_python_flake8_options = '--max-line-length=88'
 let g:ale_linters = { 'python': ['flake8', 'pydocstyle', 'bandit', 'mypy'] }
-let g:ale_fixers = {'python': ['black']}
-let g:ale_fix_on_save = 1
+let g:ale_fixers = {'*':['remove_trailing_lines', 'trim_whitespace'], 'python': ['black']}
+let g:ale_fix_on_save = 0
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-set statusline=%{LinterStatus()}
+
+"map <C-> :ALEFix<CR>:s<CR>
+"set statusline=%{LinterStatus()}
 
 "let g:ale_sign_error                  = '✘'
 "let g:ale_sign_warning                = '⚠'
