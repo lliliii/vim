@@ -40,7 +40,7 @@ call plug#end()
 let g:jellybeans_overrides = {
 \    'background':  {'guibg':'000000'},
 \    'Todo':        {'guibg':'000000', 'guifg':'33FF33', 'ctermbg':'000000', 'ctermfg':'33FF33'},
-\    'Search':      {'guibg':'00FF00', 'guifg':'000000', 'attr':'none'}, " {'guibg':'FFFF00', 'guifg':'000000', 'attr':'none'},
+\    'Search':      {'guibg':'00FF00', 'guifg':'000000', 'attr':'none'},
 \    'ColorColumn': {'guibg':'1c1c1c', 'guifg':'none'  , 'ctermbg':'1c1c1c', 'ctermfg':'none'},
 \}
 color jellybeans
@@ -166,6 +166,9 @@ nnoremap <C-K> :call flake8#Flake8ShowError()<cr>
 " Debug
 "nnoremap <C-Z> :w<cr>:source ~/.vimrc<cr>
 
-" Cheatsheet
 " :g/^$/d (empty line remove)
-":set filetype=messages
+" :set filetype=messages
+" :%s/\(.*\)\.\(.*\)/\1[.]\2/ (defang)
+
+
+" {'guibg':'FFFF00', 'guifg':'000000', 'attr':'none'},
