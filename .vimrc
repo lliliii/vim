@@ -173,8 +173,7 @@ nnoremap <C-K> :call flake8#Flake8ShowError()<cr>
 
 " {'guibg':'FFFF00', 'guifg':'000000', 'attr':'none'},
 
-function! CenterCursor()
-  normal! zz
-endfunction
-autocmd CursorMoved * call CenterCursor()
-
+"function! CenterCursor()
+"  normal! zz
+"endfunction
+"autocmd CursorMoved * call CenterCursor()
