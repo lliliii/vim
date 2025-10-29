@@ -1,13 +1,13 @@
 if empty(glob('~/.vim/colors/jellybeans.vim'))
-silent !curl -fLo ~/.vim/colors/jellybeans.vim --create-dirs
-    \ https://raw.githubusercontent.com/nanotech/jellybeans.vim/master/colors/jellybeans.vim
-source $MYVIMRC
+    silent !curl -fLo ~/.vim/colors/jellybeans.vim --create-dirs
+                \ https://raw.githubusercontent.com/nanotech/jellybeans.vim/master/colors/jellybeans.vim
+    source $MYVIMRC
 endif
 
 if empty(glob('~/.vim/autoload/plug.vim'))
-silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-autocmd VimEnter * PlugInstall --sync | source $MYVIMRC | qa
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC | qa
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -16,33 +16,22 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'blueyed/vim-diminactive'
-
-"Syntax
 Plug 'sheerun/vim-polyglot'
-
-" Linter
 Plug 'dense-analysis/ale'
-
-" Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-
-" JS
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
-
-" Python
 Plug 'davidhalter/jedi-vim'
-"Plug 'vim-python/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 call plug#end()
 
 let g:jellybeans_overrides = {
-\    'background':  {'guibg':'000000'},
-\    'Todo':        {'guibg':'000000', 'guifg':'33FF33', 'ctermbg':'000000', 'ctermfg':'33FF33'},
-\    'Search':      {'guibg':'00FF00', 'guifg':'000000', 'attr':'none'},
-\    'ColorColumn': {'guibg':'1c1c1c', 'guifg':'none'  , 'ctermbg':'1c1c1c', 'ctermfg':'none'},
-\}
+    \    'background':  {'guibg':'000000'},
+    \    'Todo':        {'guibg':'000000', 'guifg':'33FF33', 'ctermbg':'000000', 'ctermfg':'33FF33'},
+    \    'Search':      {'guibg':'00FF00', 'guifg':'000000', 'attr':'none'},
+    \    'ColorColumn': {'guibg':'1c1c1c', 'guifg':'none'  , 'ctermbg':'1c1c1c', 'ctermfg':'none'},
+    \}
 color jellybeans
 
 set backspace=indent,eol,start
@@ -67,8 +56,6 @@ set fileencodings=utf-8
 set laststatus=2
 set wildmenu
 set showcmd
-"set nowrapscan
-
 
 filetype plugin indent on
 au BufNewFile,BufRead *.py        set tabstop=4 softtabstop=4 shiftwidth=4
@@ -81,11 +68,13 @@ au BufNewFile,BufRead *.yam       set tabstop=2 softtabstop=2 shiftwidth=2 expan
 au BufNewFile,BufRead *.yaml      set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 
-" (Default) Cursor
-"set cursorcolumn
-"hi cursorcolumn ctermbg=253 cterm=none
 set cursorline
 hi cursorline ctermbg=233 cterm=none
+
+" let g:polyglot_disabled = ['csv']
+let g:ale_linters = {'csv': []}
+let g:ale_fixers = {'csv': []}
+
 
 " (Custom remap) Run Python
 autocmd FileType python map <buffer> <F5> :w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
@@ -93,9 +82,9 @@ autocmd FileType python imap <buffer> <F5> <esc>:w<CR>:exec '!clear;python3' she
 
 " (Custom) Last Edit Space Move
 au BufReadPost *
-\ if line("'\"") > 0 && line("'\"") <= line("$") |
-\ exe "norm g`\"" |
-\ endif
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ exe "norm g`\"" |
+    \ endif
 
 " (Custom) Current word highlight
 let HlUnderCursor=1
@@ -104,6 +93,8 @@ nnoremap <silent> <F4> :exe "let HlUnderCursor=exists(\"HlUnderCursor\")?HlUnder
 
 " (Command) Remove Whitespace
 command! WhiteSpace %s/\s\+$//e
+command! ELRemove :g/^$/d
+command! Defang :%s/\(.*\)\.\(.*\)/\1[.]\2/g
 
 " (Plugin) blueyed/vim-diminactive
 let g:diminactive_enable_focus = 1
@@ -113,9 +104,6 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-
-" (Plugin) python-syntax
-"let g:python_highlight_all = 1
 
 " (Plugin) scrooloose/nerdtree
 let NERDTreeShowHidden = 1
@@ -144,34 +132,17 @@ let g:ale_linters = { 'python': ['flake8', 'pydocstyle', 'bandit', 'mypy'] }
 let g:ale_fixers = {'*':['remove_trailing_lines', 'trim_whitespace'], 'python': ['black']}
 let g:ale_fix_on_save = 0
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-
-"map <C-> :ALEFix<CR>:s<CR>
-"set statusline=%{LinterStatus()}
-
-"let g:ale_sign_error                  = '✘'
-"let g:ale_sign_warning                = '⚠'
+let g:ale_sign_error                  = '✘'
+let g:ale_sign_warning                = '⚠'
 highlight ALEErrorSign ctermbg        =NONE ctermfg=red
 highlight ALEWarningSign ctermbg      =NONE ctermfg=yellow
-" ALEFix black
-
-
+let g:ale_use_global_executables = 0
 
 " (Plugin) flake8
 let g:syntastic_python_checkers=['flake8']
 let g:flake8_show_in_file=1
 let g:flake8_max_markers=500
 nnoremap <C-K> :call flake8#Flake8ShowError()<cr>
-"autocmd BufWritePost *.py call flake8#Flake8()
-
-" Debug
-"nnoremap <C-Z> :w<cr>:source ~/.vimrc<cr>
-
-" :g/^$/d (empty line remove)
-" :set filetype=messages
-" :%s/\(.*\)\.\(.*\)/\1[.]\2/ (defang)
-
-
-" {'guibg':'FFFF00', 'guifg':'000000', 'attr':'none'},
 
 "function! CenterCursor()
 "  normal! zz
